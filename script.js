@@ -1,125 +1,103 @@
 // ============================================
-// EDENCORE REAL ESTATE CASHBACK — JAVASCRIPT
+// EDENCORE PROPERTIES — JAVASCRIPT
 // ============================================
 
-// ============================================
-// DATA
-// ============================================
-
-// Standard Tier (35%): 28 SQM per ₦1M
-const standardTier = [
-    { size: "28 SQM", equity: 1000000, cashback: 1350000 },
-    { size: "56 SQM", equity: 2000000, cashback: 2700000 },
-    { size: "83 SQM", equity: 3000000, cashback: 4050000 },
-    { size: "111 SQM", equity: 4000000, cashback: 5400000 },
-    { size: "139 SQM", equity: 5000000, cashback: 6750000 },
-    { size: "194 SQM", equity: 7000000, cashback: 9450000 },
-    { size: "333 SQM", equity: 12000000, cashback: 16200000 },
-    { size: "417 SQM", equity: 15000000, cashback: 20250000 },
-    { size: "500 SQM", equity: 20000000, cashback: 27000000 },
-    { size: "694 SQM", equity: 25000000, cashback: 33750000 },
-    { size: "833 SQM", equity: 30000000, cashback: 40500000 },
-    { size: "972 SQM", equity: 35000000, cashback: 47250000 },
-    { size: "1,111 SQM", equity: 40000000, cashback: 54000000 },
-    { size: "1,250 SQM", equity: 45000000, cashback: 60750000 },
-    { size: "1,389 SQM", equity: 50000000, cashback: 67500000 },
-    { size: "1,528 SQM", equity: 55000000, cashback: 74250000 },
-    { size: "1,667 SQM", equity: 60000000, cashback: 81000000 },
-    { size: "1,944 SQM", equity: 70000000, cashback: 94500000 },
-    { size: "2,222 SQM", equity: 80000000, cashback: 108000000 },
-    { size: "2,500 SQM", equity: 90000000, cashback: 121500000 },
-    { size: "2,778 SQM", equity: 100000000, cashback: 135000000 }
+// Sample Land Listings Data
+const listingsData = [
+    {
+        id: 1,
+        title: "Prime Residential Plot — Lekki Phase 2",
+        location: "Lekki, Lagos",
+        price: "₦15,000,000",
+        size: "600 sqm",
+        type: "residential",
+        status: "Available",
+        image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop",
+        description: "Beautiful residential plot in the heart of Lekki Phase 2. Perfect for building your dream home with 24/7 power supply, good road network, and proximity to major landmarks.",
+        features: ["Gated Estate", "C of O", "Perimeter Fencing", "Water Supply"]
+    },
+    {
+        id: 2,
+        title: "Commercial Land — Ikeja Business District",
+        location: "Ikeja, Lagos",
+        price: "₦45,000,000",
+        size: "1,200 sqm",
+        type: "commercial",
+        status: "Available",
+        image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=400&fit=crop",
+        description: "Strategically located commercial land in Ikeja's bustling business district. Ideal for office complex, shopping plaza, or mixed-use development.",
+        features: ["Strategic Location", "Governor's Consent", "Main Road Frontage", "High ROI"]
+    },
+    {
+        id: 3,
+        title: "Agricultural Farmland — Ogun State",
+        location: "Abeokuta, Ogun",
+        price: "₦3,500,000",
+        size: "5 Acres",
+        type: "agricultural",
+        status: "Available",
+        image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&h=400&fit=crop",
+        description: "Fertile agricultural land with access to water source. Suitable for crop farming, poultry, or fish farming. Located in a peaceful rural setting with good access road.",
+        features: ["Water Access", "Survey Plan", "Fertile Soil", "Accessible Road"]
+    },
+    {
+        id: 4,
+        title: "Estate Plot — Epe New Town",
+        location: "Epe, Lagos",
+        price: "₦8,000,000",
+        size: "500 sqm",
+        type: "residential",
+        status: "Available",
+        image: "https://images.unsplash.com/photo-1449844908441-8829872d2607?w=600&h=400&fit=crop",
+        description: "Premium estate plot in the fast-developing Epe axis. Close to the proposed Lekki-Epe International Airport and Dangote Refinery. High appreciation potential.",
+        features: ["Estate Layout", "Deed of Assignment", "Street Light", "Drainage"]
+    },
+    {
+        id: 5,
+        title: "Beachfront Land — Badagry",
+        location: "Badagry, Lagos",
+        price: "₦25,000,000",
+        size: "2,000 sqm",
+        type: "commercial",
+        status: "Available",
+        image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop",
+        description: "Exclusive beachfront land with breathtaking ocean views. Perfect for resort development, beach houses, or tourism-related projects.",
+        features: ["Ocean View", "Excision", "Beach Access", "Tourism Zone"]
+    },
+    {
+        id: 6,
+        title: "Mixed-Use Land — Ibadan Expressway",
+        location: "Ibadan, Oyo",
+        price: "₦12,000,000",
+        size: "1,000 sqm",
+        type: "residential",
+        status: "Available",
+        image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?w=600&h=400&fit=crop",
+        description: "Versatile mixed-use land along the Lagos-Ibadan Expressway. Suitable for residential, commercial, or industrial development. Excellent road access.",
+        features: ["Expressway Frontage", "C of O", "Flat Terrain", "Developed Area"]
+    }
 ];
 
-// Premium Tier (37%): 2,778 SQM per ₦101M
-const premiumTier = [
-    { size: "2,778 SQM", equity: 101000000, cashback: 138370000 },
-    { size: "5,556 SQM", equity: 200000000, cashback: 274000000 },
-    { size: "8,334 SQM", equity: 300000000, cashback: 411000000 },
-    { size: "11,112 SQM", equity: 400000000, cashback: 548000000 },
-    { size: "13,890 SQM", equity: 500000000, cashback: 685000000 },
-    { size: "16,668 SQM", equity: 600000000, cashback: 822000000 },
-    { size: "19,446 SQM", equity: 700000000, cashback: 959000000 },
-    { size: "22,224 SQM", equity: 800000000, cashback: 1096000000 },
-    { size: "25,002 SQM", equity: 900000000, cashback: 1233000000 },
-    { size: "27,780 SQM", equity: 1000000000, cashback: 1370000000 }
-];
-
-// Client Incentives
-const incentives = [
-    { threshold: 30000000, reward: "Standing Rechargeable Fan", icon: "fa-fan" },
-    { threshold: 60000000, reward: "Table Top Fridge", icon: "fa-snowflake" },
-    { threshold: 90000000, reward: "45 Inches TV", icon: "fa-tv" },
-    { threshold: 120000000, reward: "55 Inches TV", icon: "fa-tv" },
-    { threshold: 150000000, reward: "Double Door Fridge", icon: "fa-snowflake" },
-    { threshold: 180000000, reward: "Samsung Fold 5", icon: "fa-mobile-screen" },
-    { threshold: 230000000, reward: "Samsung Fold 6", icon: "fa-mobile-screen" },
-    { threshold: 270000000, reward: "iPhone 15 Pro Max", icon: "fa-mobile-screen-button" },
-    { threshold: 300000000, reward: "iPhone 16 Pro Max", icon: "fa-mobile-screen-button" }
-];
-
-// ============================================
-// DOM ELEMENTS
-// ============================================
+// DOM Elements
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 const navLinks = document.querySelectorAll('.nav-link');
+const listingsGrid = document.getElementById('listingsGrid');
+const searchBtn = document.getElementById('searchBtn');
+const searchLocation = document.getElementById('searchLocation');
+const searchType = document.getElementById('searchType');
+const searchPrice = document.getElementById('searchPrice');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
+const listingModal = document.getElementById('listingModal');
+const modalClose = document.getElementById('modalClose');
+const modalBody = document.getElementById('modalBody');
+const contactForm = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
 const toastMessage = document.getElementById('toastMessage');
 
 // ============================================
-// UTILITIES
-// ============================================
-function formatCurrency(num) {
-    return '₦' + num.toLocaleString('en-NG');
-}
-
-function formatNumber(num) {
-    return num.toLocaleString('en-NG');
-}
-
-function showToast(message) {
-    toastMessage.textContent = message;
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 4000);
-}
-
-// ============================================
-// COUNTDOWN TIMER
-// ============================================
-function initCountdown() {
-    const targetDate = new Date('2026-07-31T23:59:59').getTime();
-
-    function update() {
-        const now = new Date().getTime();
-        const diff = targetDate - now;
-
-        if (diff <= 0) {
-            document.getElementById('days').textContent = '00';
-            document.getElementById('hours').textContent = '00';
-            document.getElementById('minutes').textContent = '00';
-            document.getElementById('seconds').textContent = '00';
-            return;
-        }
-
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('days').textContent = String(days).padStart(2, '0');
-        document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-        document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-        document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-    }
-
-    update();
-    setInterval(update, 1000);
-}
-
-// ============================================
-// NAVBAR SCROLL
+// NAVBAR SCROLL EFFECT
 // ============================================
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
@@ -130,7 +108,7 @@ window.addEventListener('scroll', () => {
 });
 
 // ============================================
-// MOBILE NAV
+// MOBILE NAV TOGGLE
 // ============================================
 navToggle.addEventListener('click', () => {
     navToggle.classList.toggle('active');
@@ -138,6 +116,7 @@ navToggle.addEventListener('click', () => {
     document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
 });
 
+// Close mobile menu on link click
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
         navToggle.classList.remove('active');
@@ -147,7 +126,7 @@ navLinks.forEach(link => {
 });
 
 // ============================================
-// SMOOTH SCROLL + ACTIVE LINK
+// SMOOTH SCROLL + ACTIVE NAV LINK
 // ============================================
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
@@ -155,16 +134,17 @@ navLinks.forEach(link => {
         const targetId = link.getAttribute('href');
         const targetSection = document.querySelector(targetId);
         if (targetSection) {
-            const offset = navbar.offsetHeight + (document.getElementById('countdownBanner')?.offsetHeight || 0);
+            const offset = 80;
             const targetPosition = targetSection.getBoundingClientRect().top + window.scrollY - offset;
             window.scrollTo({ top: targetPosition, behavior: 'smooth' });
         }
     });
 });
 
+// Update active nav link on scroll
 window.addEventListener('scroll', () => {
     const sections = document.querySelectorAll('section[id]');
-    const scrollPos = window.scrollY + 150;
+    const scrollPos = window.scrollY + 100;
 
     sections.forEach(section => {
         const top = section.offsetTop;
@@ -183,166 +163,216 @@ window.addEventListener('scroll', () => {
 });
 
 // ============================================
-// RENDER TIER TABLES
+// RENDER LISTINGS
 // ============================================
-function renderTierTable(data, tbodyId) {
-    const tbody = document.getElementById(tbodyId);
-    tbody.innerHTML = data.map(row => `
-        <tr>
-            <td>${row.size}</td>
-            <td>${formatCurrency(row.equity)}</td>
-            <td>${formatCurrency(row.cashback)}</td>
-        </tr>
-    `).join('');
-}
-
-renderTierTable(standardTier, 'standardTable');
-renderTierTable(premiumTier, 'premiumTable');
-
-// ============================================
-// RENDER INCENTIVES
-// ============================================
-function renderIncentives() {
-    const grid = document.getElementById('incentivesGrid');
-    grid.innerHTML = incentives.map(inv => `
-        <div class="incentive-card">
-            <div class="incentive-icon"><i class="fas ${inv.icon}"></i></div>
-            <div class="incentive-details">
-                <h4>${formatCurrency(inv.threshold)}+</h4>
-                <p>${inv.reward}</p>
+function renderListings(listings) {
+    listingsGrid.innerHTML = listings.map(listing => `
+        <div class="listing-card" data-id="${listing.id}" onclick="openModal(${listing.id})">
+            <div class="listing-image">
+                <img src="${listing.image}" alt="${listing.title}" loading="lazy">
+                <span class="listing-badge badge-${listing.type}">${listing.type}</span>
+                <span class="listing-price">${listing.price}</span>
+            </div>
+            <div class="listing-content">
+                <div class="listing-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>${listing.location}</span>
+                </div>
+                <h3 class="listing-title">${listing.title}</h3>
+                <div class="listing-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-ruler-combined"></i>
+                        <span>${listing.size}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-file-shield"></i>
+                        <span>${listing.features[0]}</span>
+                    </div>
+                </div>
+                <div class="listing-footer">
+                    <div class="listing-status">
+                        <span class="status-dot"></span>
+                        <span>${listing.status}</span>
+                    </div>
+                    <span class="listing-btn">
+                        View Details <i class="fas fa-arrow-right"></i>
+                    </span>
+                </div>
             </div>
         </div>
     `).join('');
 }
 
-renderIncentives();
+// Initial render
+renderListings(listingsData);
 
 // ============================================
-// CALCULATOR
+// SEARCH / FILTER
 // ============================================
-const investmentInput = document.getElementById('investmentAmount');
-const presetBtns = document.querySelectorAll('.preset-btn');
-const calcSize = document.getElementById('calcSize');
-const calcRate = document.getElementById('calcRate');
-const calcProfit = document.getElementById('calcProfit');
-const calcTotal = document.getElementById('calcTotal');
-const incentiveRow = document.getElementById('incentiveRow');
-const calcIncentive = document.getElementById('calcIncentive');
+function filterListings() {
+    const locationQuery = searchLocation.value.toLowerCase();
+    const typeQuery = searchType.value;
+    const priceQuery = searchPrice.value;
 
-function calculateReturns(amount) {
-    if (!amount || amount < 1000000) {
-        calcSize.textContent = '—';
-        calcRate.textContent = '—';
-        calcProfit.textContent = '—';
-        calcTotal.textContent = '—';
-        incentiveRow.style.display = 'none';
-        return;
-    }
+    let filtered = listingsData.filter(listing => {
+        // Location filter
+        const matchLocation = !locationQuery || 
+            listing.location.toLowerCase().includes(locationQuery) ||
+            listing.title.toLowerCase().includes(locationQuery);
 
-    let rate, size, profit, total;
+        // Type filter
+        const matchType = typeQuery === 'all' || listing.type === typeQuery;
 
-    if (amount >= 101000000) {
-        // Premium tier (37%)
-        rate = 37;
-        // Find closest premium tier for size reference
-        const closest = premiumTier.reduce((prev, curr) => 
-            Math.abs(curr.equity - amount) < Math.abs(prev.equity - amount) ? curr : prev
-        );
-        size = closest.size;
-        profit = Math.round(amount * 0.37);
-    } else {
-        // Standard tier (35%)
-        rate = 35;
-        const closest = standardTier.reduce((prev, curr) => 
-            Math.abs(curr.equity - amount) < Math.abs(prev.equity - amount) ? curr : prev
-        );
-        size = closest.size;
-        profit = Math.round(amount * 0.35);
-    }
+        // Price filter
+        let matchPrice = true;
+        const priceNum = parseInt(listing.price.replace(/[^0-9]/g, ''));
+        if (priceQuery === 'low') matchPrice = priceNum < 5000000;
+        else if (priceQuery === 'mid') matchPrice = priceNum >= 5000000 && priceNum < 20000000;
+        else if (priceQuery === 'high') matchPrice = priceNum >= 20000000;
 
-    total = amount + profit;
+        return matchLocation && matchType && matchPrice;
+    });
 
-    // Check incentive
-    const earnedIncentive = incentives
-        .filter(inv => amount >= inv.threshold)
-        .pop();
+    renderListings(filtered);
 
-    calcSize.textContent = size;
-    calcRate.textContent = rate + '% per annum';
-    calcProfit.textContent = formatCurrency(profit);
-    calcTotal.textContent = formatCurrency(total);
-
-    if (earnedIncentive) {
-        incentiveRow.style.display = 'flex';
-        calcIncentive.textContent = earnedIncentive.reward;
-    } else {
-        incentiveRow.style.display = 'none';
+    // Show toast if no results
+    if (filtered.length === 0) {
+        showToast('No listings match your search. Try different filters.');
     }
 }
 
-investmentInput.addEventListener('input', (e) => {
-    const val = parseInt(e.target.value) || 0;
-    calculateReturns(val);
+searchBtn.addEventListener('click', filterListings);
+searchLocation.addEventListener('input', debounce(filterListings, 300));
+searchType.addEventListener('change', filterListings);
+searchPrice.addEventListener('change', filterListings);
 
-    // Update preset buttons
-    presetBtns.forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.value) === val);
-    });
+// Debounce helper
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// ============================================
+// MODAL
+// ============================================
+window.openModal = function(id) {
+    const listing = listingsData.find(l => l.id === id);
+    if (!listing) return;
+
+    modalBody.innerHTML = `
+        <img src="${listing.image}" alt="${listing.title}" class="modal-image">
+        <div class="modal-details">
+            <span class="listing-badge badge-${listing.type}" style="margin-bottom:12px;display:inline-block;">${listing.type}</span>
+            <h2>${listing.title}</h2>
+            <div class="modal-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${listing.location}</span>
+            </div>
+            <div class="modal-price">${listing.price}</div>
+            <div class="modal-meta">
+                <div class="modal-meta-item">
+                    <span>Size</span>
+                    <strong>${listing.size}</strong>
+                </div>
+                <div class="modal-meta-item">
+                    <span>Type</span>
+                    <strong style="text-transform:capitalize;">${listing.type}</strong>
+                </div>
+                <div class="modal-meta-item">
+                    <span>Status</span>
+                    <strong style="color:var(--light-green);">${listing.status}</strong>
+                </div>
+            </div>
+            <p class="modal-description">${listing.description}</p>
+            <div style="margin-bottom:24px;">
+                <h4 style="font-size:1rem;margin-bottom:12px;color:var(--gray-800);">Key Features</h4>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                    ${listing.features.map(f => `<span style="background:var(--gray-50);padding:8px 16px;border-radius:50px;font-size:0.85rem;color:var(--gray-600);border:1px solid var(--gray-100);">${f}</span>`).join('')}
+                </div>
+            </div>
+            <div class="modal-actions">
+                <a href="tel:08149904981" class="btn btn-primary">
+                    <i class="fas fa-phone"></i> Call Now
+                </a>
+                <a href="https://wa.me/2348149904981?text=Hi%20EdenCore,%20I'm%20interested%20in%20the%20${encodeURIComponent(listing.title)}" target="_blank" class="btn btn-outline">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </a>
+                <a href="mailto:info@edencoreproperties.com?subject=Inquiry%20about%20${encodeURIComponent(listing.title)}" class="btn btn-outline">
+                    <i class="fas fa-envelope"></i> Email
+                </a>
+            </div>
+        </div>
+    `;
+
+    listingModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+};
+
+modalClose.addEventListener('click', closeModal);
+listingModal.addEventListener('click', (e) => {
+    if (e.target === listingModal) closeModal();
 });
 
-presetBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const val = parseInt(btn.dataset.value);
-        investmentInput.value = val;
-        calculateReturns(val);
+function closeModal() {
+    listingModal.classList.remove('active');
+    document.body.style.overflow = '';
+}
 
-        presetBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-    });
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
 });
 
 // ============================================
-// INVESTMENT FORM
+// CONTACT FORM
 // ============================================
-const investForm = document.getElementById('investForm');
-
-investForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const name = document.getElementById('invName').value;
-    const phone = document.getElementById('invPhone').value;
-    const amount = document.getElementById('invAmount').value;
-    const type = document.getElementById('invType').value;
-    const message = document.getElementById('invMessage').value;
+    const formData = new FormData(contactForm);
+    const data = Object.fromEntries(formData);
 
-    // Build WhatsApp message
-    const amountText = amount === 'other' ? 'Above ₦100M' : formatCurrency(parseInt(amount));
-    const typeText = type === 'rollover' ? 'Rollover (Existing Partner)' : 'New Investment';
+    // Simulate form submission
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.disabled = true;
 
-    const text = `Hi EdenCore!%0A%0A` +
-        `*New Investment Inquiry*%0A` +
-        `Name: ${encodeURIComponent(name)}%0A` +
-        `Phone: ${encodeURIComponent(phone)}%0A` +
-        `Amount: ${encodeURIComponent(amountText)}%0A` +
-        `Type: ${encodeURIComponent(typeText)}%0A` +
-        (message ? `Message: ${encodeURIComponent(message)}` : '');
-
-    // Open WhatsApp
-    window.open(`https://wa.me/2348149904981?text=${text}`, '_blank');
-
-    showToast('Opening WhatsApp... Send us your inquiry!');
-    investForm.reset();
+    setTimeout(() => {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+        contactForm.reset();
+        showToast('Message sent! We will contact you shortly.');
+    }, 1500);
 });
 
 // ============================================
-// SCROLL REVEAL
+// TOAST NOTIFICATION
+// ============================================
+function showToast(message) {
+    toastMessage.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 4000);
+}
+
+// ============================================
+// SCROLL REVEAL ANIMATION
 // ============================================
 function initScrollReveal() {
-    const revealElements = document.querySelectorAll(
-        '.step-card, .tier-card, .incentive-card, .trust-card, .section-header, .calculator-wrapper, .invest-wrapper, .rollover-banner'
-    );
+    const revealElements = document.querySelectorAll('.listing-card, .feature-card, .section-header, .contact-wrapper, .cta-content');
 
-    revealElements.forEach(el => el.classList.add('reveal'));
+    revealElements.forEach(el => {
+        el.classList.add('reveal');
+    });
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -351,22 +381,42 @@ function initScrollReveal() {
                 observer.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
 
     revealElements.forEach(el => observer.observe(el));
 }
 
 // ============================================
+// LOAD MORE BUTTON
+// ============================================
+loadMoreBtn.addEventListener('click', () => {
+    showToast('More listings coming soon! Contact us for exclusive off-market plots.');
+});
+
+// ============================================
 // INITIALIZE
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
-    initCountdown();
     initScrollReveal();
-
-    // Set default calculator value
-    investmentInput.value = 5000000;
-    calculateReturns(5000000);
-    presetBtns.forEach(btn => {
-        if (parseInt(btn.dataset.value) === 5000000) btn.classList.add('active');
-    });
 });
+
+// ============================================
+// UTILITY: Format Currency
+// ============================================
+function formatCurrency(amount) {
+    return '₦' + amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// ============================================
+// UTILITY: Copy to Clipboard
+// ============================================
+function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied to clipboard!');
+    }).catch(() => {
+        showToast('Failed to copy. Please try manually.');
+    });
+}
